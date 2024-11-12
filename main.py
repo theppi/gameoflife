@@ -1,15 +1,19 @@
 # This is a sample Python script.
+from Game import Game
 from GameField import GameField
 from FieldPrinter import FieldPrinter
 
 
 def main():
     field = GameField.from_file("seed.dat", "X")
-    printer = FieldPrinter()
-    printer.print_field(field)
+    printer = FieldPrinter(field, "X", " ")
+    printer.print_field()
+    game = Game(field)
+    for i in range(20):
+        game.tick()
+        printer.print_sep()
+        printer.print_field()
 
-# Press the green button in the gutter to run the script.
+
 if __name__ == '__main__':
     main()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
