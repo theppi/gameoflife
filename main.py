@@ -6,7 +6,7 @@ from FieldPrinter import FieldPrinter
 
 def main():
     field = GameField.from_file("seed.dat", "X")
-    printer = FieldPrinter(field, "X", " ")
+    printer = FieldPrinter(field)
     printer.print_field()
     game = Game(field)
     for i in range(20):
