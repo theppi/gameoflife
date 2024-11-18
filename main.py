@@ -1,19 +1,16 @@
 # This is a sample Python script.
-from Game import Game
-from GameField import GameField
-from FieldPrinter import FieldPrinter
+import time
 
+from src.GameOfLife import GameOfLife
+from ConsoleRenderer import ConsoleRenderer, Area
 
 def main():
-    field = GameField.from_file("seed.dat", "X")
-    printer = FieldPrinter(field)
-    printer.print_field()
-    game = Game(field)
+    with open("seed.dat") as file:
+        seed = file.read().splitlines()
+    game = GameOfLife(seed, ConsoleRenderer(Area(12, 12, 7, 2), "▮", "▯", " "))
     for i in range(20):
         game.tick()
-        printer.print_sep()
-        printer.print_field()
-
+        time.sleep(0.1)
 
 if __name__ == '__main__':
     main()

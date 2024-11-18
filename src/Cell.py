@@ -1,5 +1,4 @@
-from State import State
-
+from src.State import State
 
 class Cell:
     def __init__(self, state: State):
@@ -16,3 +15,4 @@ class Cell:
         if self._flag is None: return
         self.state = self._flag
         self._flag = None
+        return self.state
