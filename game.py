@@ -12,7 +12,7 @@ class CellField:
         self.y_0 = y_0
         self.rect = pygame.Rect(x_0, y_0, 29, 29)
     def render(self):
-        pygame.draw.rect(self.screen, self.color, self.rect)
+        pygame.draw.circle(self.screen, self.color, [self.x_0, self.y_0], 15)
 
 class Game:
     grid = {}
@@ -76,14 +76,12 @@ class Game:
         self.__apply_state()
 
     def __apply_state(self):
-        for (x, y) in self.game_logic.field.map:
-            if (y, x) not in self.grid:
-                continue
-            if self.game_logic.field.get_cell_state(x, y) == State.ALIVE:
-                self.grid[(y, x)].color = "Red"
+        for (x, y) in self.grid:
+            if self.game_logic.field.get_cell_state(y, x) == State.ALIVE:
+                self.grid[(x, y)].color = "Red"
                 continue
             else:
-                self.grid[(y, x)].color = "Grey"
+                self.grid[(x, y)].color = "Grey"
 
 if __name__ == '__main__':
     game = Game()
