@@ -10,13 +10,13 @@ class CellField:
         self.screen = screen
         self.x_0 = x_0
         self.y_0 = y_0
-        self.rect = pygame.Rect(x_0, y_0, 29, 29)
+        self.rect = pygame.Rect(x_0, y_0, 4, 4)
     def render(self):
-        pygame.draw.circle(self.screen, self.color, [self.x_0, self.y_0], 15)
+        pygame.draw.rect(self.screen, self.color, self.rect)
 
 class Game:
     grid = {}
-    framerate = 20
+    framerate = 1
     running = True
     dt = 0
     def __init__(self):
@@ -35,11 +35,11 @@ class Game:
 
     def prepare(self):
         self.screen.fill("white")
-        count_width = round((self.screen.get_width() - 20) / 30) - 1
-        count_height = round((self.screen.get_height() - 20) / 30)
+        count_width = round((self.screen.get_width() - 20) / 5) - 1
+        count_height = round((self.screen.get_height() - 20) / 5)
         for x in range(count_width):
             for y in range(count_height):
-                field = CellField(self.screen, 10 + 30 * x, 10 + 30 * y)
+                field = CellField(self.screen, 10 + 5 * x, 10 + 5 * y)
                 if self.game_logic.field.get_cell_state(y, x) == State.ALIVE:
                     field.color = "Red"
                 self.grid[(x,y)] = field
