@@ -28,10 +28,16 @@ class Game:
             seed = file.read().splitlines()
         self.game_logic = GameOfLife(seed)
 
+    def run(self):
+        self.prepare()
+        while self.running:
+            self.loop()
+        pygame.quit()
+
     def prepare(self):
         self.screen.fill("white")
-        count_width = round((self.screen.width - 20) / 30) - 1
-        count_height = round((self.screen.height - 20) / 30)
+        count_width = round((self.screen.get_width() - 20) / 30) - 1
+        count_height = round((self.screen.get_height() - 20) / 30)
         for x in range(count_width):
             for y in range(count_height):
                 field = CellField(self.screen, 10 + 30 * x, 10 + 30 * y)
@@ -39,21 +45,6 @@ class Game:
                     field.color = "Red"
                 self.grid[(x,y)] = field
                 field.render()
-
-    def run(self):
-        self.prepare()
-        while self.running:
-            self.loop()
-        pygame.quit()
-
-    def check_inputs(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
-            self.running = False
-            return
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
 
     def loop(self):
         self.check_inputs()
@@ -63,6 +54,15 @@ class Game:
         pygame.display.flip()
 
         self.clock.tick(60)
+
+    def check_inputs(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            self.running = False
+            return
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
 
     def render(self):
         self.screen.fill("white")
@@ -85,7 +85,6 @@ class Game:
                 continue
             else:
                 self.grid[(y, x)].color = "Grey"
-
 
 if __name__ == '__main__':
     game = Game()
