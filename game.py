@@ -14,9 +14,6 @@ BACKGROUND_COLOR = "white"
 def noop(_ = None):
     pass
 
-def snoop():
-    pass
-
 border = 10
 cell_size = 10
 
@@ -28,7 +25,7 @@ class Game:
     _running = True
     _pause = True
 
-    keymap = defaultdict(lambda: snoop)
+    keymap = defaultdict(lambda: noop)
     eventmap = defaultdict(lambda: noop)
 
     def __init__(self):
@@ -45,13 +42,13 @@ class Game:
 
     def _init_keymap(self):
         self.keymap.update({
-            pygame.K_ESCAPE:    self.quit,
-            pygame.K_SPACE:     self.pause
+            pygame.K_ESCAPE:    lambda _: self.quit(),
+            pygame.K_SPACE:     lambda _: self.pause
         })
 
     def _init_event_handler(self):
         self.eventmap.update({
-            pygame.QUIT:            lambda _: self.quit(),
+            pygame.QUIT:            lambda event: self.quit(),
             pygame.KEYDOWN:         lambda event: self.keymap[event.key](),
             pygame.MOUSEBUTTONDOWN: lambda event: self.revive_cell(event.pos)
         })
@@ -68,7 +65,7 @@ class Game:
         self._running = False
 
     def prepare(self):
-        self.screen.fill("white")
+        self.screen.fill(BACKGROUND_COLOR)
         count_width = floor((self.screen.get_width() - (2 * border)) / cell_size)
         count_height = floor((self.screen.get_height() - (2 * border)) / cell_size)
         for x in range(count_width):
@@ -77,7 +74,7 @@ class Game:
 
     def _create_field(self, x: int, y: int):
         field = CellField(self.screen, border + cell_size * x, border + cell_size * y, cell_size)
-        if self.game_logic.field.get_cell_state(y, x) == State.ALIVE: field.color = "Red"
+        if self.game_logic.field.get_cell_state(y, x) == State.ALIVE: field.color = ALIVE_COLOR
         self.grid[(x, y)] = field
         field.render()
 
