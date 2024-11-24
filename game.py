@@ -50,7 +50,7 @@ class Game:
         self.eventmap.update({
             pygame.QUIT:            lambda event: self.quit(),
             pygame.KEYDOWN:         lambda event: self.keymap[event.key](),
-            pygame.MOUSEBUTTONDOWN: lambda event: self.revive_cell(event.pos)
+            pygame.MOUSEBUTTONDOWN: lambda event: self.bring_cell_to_life(event.pos)
         })
 
     def run(self):
@@ -112,7 +112,7 @@ class Game:
             else:
                 self.grid[(x, y)].color = DEAD_COLOR
 
-    def revive_cell(self, pos):
+    def bring_cell_to_life(self, pos):
         x = round((pos[0]-border - 0.5 * cell_size) / cell_size)
         y = round((pos[1]-border - 0.5 * cell_size) / cell_size)
         self.game_logic.field.set_cell_state(y, x, State.ALIVE)
