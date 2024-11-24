@@ -25,7 +25,7 @@ class Game:
     _running = True
     _pause = True
 
-    keymap = defaultdict(lambda: noop)
+    keymap = defaultdict(noop)
     eventmap = defaultdict(lambda: noop)
 
     def __init__(self):
@@ -42,8 +42,8 @@ class Game:
 
     def _init_keymap(self):
         self.keymap.update({
-            pygame.K_ESCAPE:    lambda _: self.quit(),
-            pygame.K_SPACE:     lambda _: self.pause
+            pygame.K_ESCAPE:    self.quit,
+            pygame.K_SPACE:     self.pause
         })
 
     def _init_event_handler(self):
